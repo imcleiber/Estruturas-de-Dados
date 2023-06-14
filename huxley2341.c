@@ -13,12 +13,13 @@ int decrementa(int n)
     else{
         subtraendo = decrementa(n / 10);
     }
-    return n - subtraendo;
+    return subtraendo;
 }
 void main()
 {
-    int n, resultado;
+    int n, resultado, subtraendo;
     scanf("%i", &n);
-    resultado = decrementa(n);
+    subtraendo = decrementa(n);
+    resultado = n - subtraendo;
     printf("%i\n", resultado);
 }
