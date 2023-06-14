@@ -3,17 +3,30 @@
 #include <math.h>
 int ehpar(int n){
     if(n % 2 == 0)
-    return 1;
+    return 2;
     else
-    return 0;
+    return 3;
 }
-
+int function(int n, int contador){
+    if(n == 0){
+        return 0;
+    }
+    else{
+        int algarismo;
+        algarismo = n % 10;
+        n /= 10;
+        return (algarismo * ehpar(algarismo) * contador) + function(n, contador + 1);
+    }
+}
 void main()
 {
     int n;
-    while(scanf("%i", &n) != 0){
-
-
+    scanf("%i", &n);
+    while(n != 0){
+        int resultado;
+        resultado = function(n, 1);
+        printf("%d\n", resultado);
+        scanf("%i", &n);
     }
     return;
 }
