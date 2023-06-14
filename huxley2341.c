@@ -5,12 +5,12 @@
 
 int decrementa(int n)
 {
+    int subtraendo;
     if(n / 10 == 0){
         if(n % 2 == 0) return 4;
         else return 3;
     }
     else{
-        int subtraendo;
         subtraendo = decrementa(n / 10);
     }
     return n - subtraendo;
