@@ -8,6 +8,7 @@ typedef struct node{
     int item;
     struct lista *next;
 }NODE;
+
 typedef struct elemento{
     NODE *lista;
     NODE *next;
@@ -18,10 +19,13 @@ typedef struct pilha{
 }STACK;
 
 void print_list(NODE *lista){
-    while(lista->next != NULL){
-        printf("%d ", lista->item);
-        lista = lista->next;
+    NODE *aux = lista;
+    while(aux->next != NULL){
+        printf("%d ", aux->item);
+        aux = aux->next;
     }
+    printf(" %d\n", aux->item);
+    return;
 }
 STACK *create_stack(){
     STACK *new_stack = malloc(sizeof(STACK));
