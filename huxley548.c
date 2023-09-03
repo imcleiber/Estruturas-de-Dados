@@ -61,4 +61,5 @@ void pop(STACK *pilha){
         pilha->top = pilha->top->next;
         free(retirar);
     }
+    return;
 }
