@@ -9,9 +9,14 @@ typedef struct node{
     struct lista *next;
 }NODE;
 
+typedef struct lista{
+    NODE *head;
+    NODE *tail;
+} LISTA;
+
 typedef struct elemento{
-    NODE *lista;
-    NODE *next;
+    LISTA *lista;
+    struct elemento *next;
 }ELEMENT;
 
 typedef struct pilha{
@@ -27,10 +32,28 @@ void print_list(NODE *lista){
     printf(" %d\n", aux->item);
     return;
 }
+
 STACK *create_stack(){
     STACK *new_stack = malloc(sizeof(STACK));
     new_stack->top = NULL;
     return new_stack;
+}
+
+void add_tail(LISTA *lista, int item){
+    NODE *new_node = malloc(sizeof(NODE));
+    if(lista->tail == NULL){
+        new_node->item = item;
+        new_node->next = NULL;
+        lista->head = new_node;
+        lista->tail = new_node;
+    }
+    else{
+        new_node->next = NULL;
+        new_node->item = item;
+        lista->tail->next = new_node;
+        lista->tail = lista->tail->next;
+    }
+    return;
 }
 
 void push(STACK *pilha, ELEMENT *item){
