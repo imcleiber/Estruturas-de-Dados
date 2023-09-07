@@ -18,29 +18,18 @@ ROOT* create_new_binary_tree(int item, ROOT* left, ROOT* right){
     new_binary_tree->right = right;
     return new_binary_tree;
 }
-int is_binary_search_tree(ROOT* parent, int raiz, int previous){
+int is_binary_search_tree(ROOT* parent){
     int ver;
-    if(parent->left == NULL && parent->right == NULL){
+    if(parent == NULL){
         return 1;
     }
-    else{
-        if(parent->left != NULL){
-            if(parent->item < parent->left->item || previous < parent->left->item || raiz < parent->left->item) return 0;
-            ver = is_binary_search_tree(parent->left, raiz, parent->item);
-            //if(ver > parent->item) return 0;
-            if(ver == 0) return 0;
-        }
-        if(parent->right != NULL){
-            if(parent->item > parent->right->item || previous > parent->right->item || raiz > parent->right->item) return 0;
-            ver = is_binary_search_tree(parent->right, raiz, parent->item);
-            //if(ver < parent->item) return 0;
-            if(ver == 0) return 0; 
-        }
-        
+    if(parent->left->item > parent->item || parent->right->item < parent->item){
+        return 0;
     }
-    return 1;
+
+    return is_binary_search_tree(parent->left) && is_binary_search_tree(parent->right);
 }
-ROOT *create_tree(char *string, int *i){
+ROOT *create_tree(char string[], int *i){
     if(*i == strlen(string)) return 0;
     while(string[*i] == '(' || string[*i] == ' ') (*i)++;
 
@@ -61,14 +50,14 @@ ROOT *create_tree(char *string, int *i){
 }
 void main(){
     ROOT* arvore;
-    char arv[1000];
-    int *i = 0;
-    char *valores;
-    arvore = create_empty_binary_tree();
+    char arv[100];
+    int valor = 0;
+    int *i = &valor;
+    arvore = NULL;
     scanf("%s", arv);
     int verification;
     arvore = create_tree(arv, i);
-    verification = is_binary_search_tree(arvore, arvore->item, arvore->item);
+    verification = is_binary_search_tree(arvore);
     if(verification == 1) printf("VERDADEIRO");
     if(verification == 0) printf("FALSO");
 
