@@ -4,7 +4,6 @@
 #include <math.h>
 
 typedef struct no{
-    int item;
     int index;
     struct no *prox;
 }NO;
@@ -28,7 +27,7 @@ NO * criar_no(int index, NO *prox){
 HT *create_hash_table(int size){
     HT *new_table = malloc(sizeof(HT));
     for(int i = 0; i < size; i++){
-        new_table->table[i] = NULL;
+        new_table->table[i]->lista = NULL;
     }
 
     return new_table;
@@ -49,5 +48,38 @@ void put(HT *hash_table, int key, int size){
             aux = aux->prox;
         }
         aux->prox = criar_no(key, NULL);
+    }
+}
+
+void print_hash_table(HT *ht, int size){
+    for(int i = 0; i < size; i++){
+        printf("%d -> ", i);
+        NO *aux = ht->table[i]->lista;
+        while(aux != NULL){
+            printf("%d -> ", aux->index);
+        }
+        printf("\\");
+    }
+}
+
+void main(){
+    int n_tables;
+    scanf("%d", &n_tables);
+    for(int i = 0; i < n_tables; i++){
+        int size, lidos;
+        scanf("%d %d", &size, &lidos);
+        printf("%d %d", size, lidos);
+        HT *tabela = malloc(sizeof(HT));
+        tabela = create_hash_table(size);
+        for(int j = 0; j < lidos; j++){
+            int lido;
+            scanf("%d", &lido);
+            put(tabela, lido, size);
+        }
+        print_hash_table(tabela, size);
+        free(tabela);
+        if(i < n_tables - 1){
+            printf("\n");
+        }
     }
 }
