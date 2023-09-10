@@ -11,7 +11,7 @@ typedef struct binary_tree{
 ROOT *create_empty_binary_tree(){
     return NULL;
 }
-ROOT* create_new_binary_tree(int item, ROOT* left, ROOT* right){
+ROOT* create_new_binary_tree(int item, ROOT* right, ROOT* left){
     ROOT* new_binary_tree = (ROOT*) malloc(sizeof(ROOT));
     new_binary_tree->item = item;
     new_binary_tree->left = left;
@@ -19,18 +19,31 @@ ROOT* create_new_binary_tree(int item, ROOT* left, ROOT* right){
     return new_binary_tree;
 }
 int is_binary_search_tree(ROOT* parent){
-    int ver;
     if(parent == NULL){
         return 1;
     }
-    if(parent->left->item > parent->item || parent->right->item < parent->item){
+    if(parent->left == NULL && parent->right == NULL){
+        return 1;
+    }
+    else if(parent->left == NULL){
+        if(parent->right->item < parent->item){
+            return 0;
+        }
+    }
+    else if(parent->right == NULL){
+        if(parent->left->item > parent->item){
+            return 0;
+        }
+    }
+    else{
         return 0;
     }
+
 
     return is_binary_search_tree(parent->left) && is_binary_search_tree(parent->right);
 }
 ROOT *create_tree(char string[], int *i){
-    if(*i == strlen(string)) return 0;
+    if(*i == strlen(string)) return NULL;
     while(string[*i] == '(' || string[*i] == ' ') (*i)++;
 
     if(string[*i] == ')'){
@@ -58,7 +71,7 @@ void main(){
     int verification;
     arvore = create_tree(arv, i);
     verification = is_binary_search_tree(arvore);
-    if(verification == 1) printf("VERDADEIRO");
-    if(verification == 0) printf("FALSO");
+    if(verification == 1) printf("VERDADEIRO\n");
+    if(verification == 0) printf("FALSO\n");
 
 }
