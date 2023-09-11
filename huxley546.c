@@ -35,9 +35,6 @@ int is_binary_search_tree(ROOT* parent){
             return 0;
         }
     }
-    else{
-        return 0;
-    }
 
 
     return is_binary_search_tree(parent->left) && is_binary_search_tree(parent->right);
@@ -62,11 +59,10 @@ ROOT *create_tree(char string[], int *i){
     return create_new_binary_tree(item, create_tree(string, i), create_tree(string, i));
 }
 void main(){
-    ROOT* arvore;
+    ROOT* arvore = create_empty_binary_tree();
     char arv[100];
     int valor = 0;
     int *i = &valor;
-    arvore = NULL;
     scanf("%s", arv);
     int verification;
     arvore = create_tree(arv, i);
