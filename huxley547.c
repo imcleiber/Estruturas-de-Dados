@@ -37,14 +37,14 @@ ROOT *create_tree(char string[], int *i){
     return create_new_binary_tree(item, create_tree(string, i), create_tree(string, i));
 }
 
-ROOT *calcular_profundidade(ROOT *arvore, int contador){
+void calcular_profundidade(ROOT *arvore, int contador){
     if(arvore == NULL) return NULL;
     else{
         arvore->profundidade = contador;
-        arvore->left = calcular_profundidade(arvore->left, contador + 1);
-        arvore->right = calcular_profundidade(arvore->right, contador +1);
+        calcular_profundidade(arvore->left, contador + 1);
+        calcular_profundidade(arvore->right, contador +1);
     }
-    return arvore;
+    return;
 }
 
 ROOT *profundidade(ROOT *arvore, int item){
@@ -76,7 +76,7 @@ void main(){
     int no;
     arvore = create_tree(string, i);
     scanf("%d", &no);
-    arvore = calcular_profundidade(arvore, 0);
+    calcular_profundidade(arvore, 0);
     node = profundidade(arvore, no);
     if(arvore == NULL) printf("NAO ESTA NA ARVORE\n");
     else{
