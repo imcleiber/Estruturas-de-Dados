@@ -35,6 +35,9 @@ int is_binary_search_tree(ROOT* parent){
             return 0;
         }
     }
+    else if(parent->left->item > parent->item || parent->right->item < parent->item){
+        return 0;
+    }
 
 
     return is_binary_search_tree(parent->left) && is_binary_search_tree(parent->right);
