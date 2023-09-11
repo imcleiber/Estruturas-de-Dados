@@ -38,36 +38,41 @@ ROOT *create_tree(char string[], int *i){
 }
 
 void calcular_profundidade(ROOT *arvore, int contador){
-    if(arvore == NULL) return NULL;
+    if(arvore == NULL) return;
     else{
         arvore->profundidade = contador;
         calcular_profundidade(arvore->left, contador + 1);
-        calcular_profundidade(arvore->right, contador +1);
+        calcular_profundidade(arvore->right, contador + 1);
     }
     return;
 }
 
-ROOT *profundidade(ROOT *arvore, int item){
+void profundidade(ROOT *arvore, int item, ROOT **procurado){
 
-    if(arvore == NULL || arvore->item == item){
-        return arvore;
+    if(arvore == NULL){
+        return;
+    }
+    if(arvore->item == item){
+        *procurado = arvore;
+        return;
     }
     else{
-        if(profundidade(arvore->left, item) == NULL){
-            if(profundidade (arvore->right, item) == NULL);
-            else{
-                arvore = profundidade(arvore->right, item);
-            }
+        if(arvore->left == NULL){
+            profundidade(arvore->right, item, procurado);
+        }
+        else if(arvore->right == NULL){
+            profundidade(arvore->left, item, procurado);
         }
         else{
-            arvore = profundidade(arvore->left, item);
+            profundidade(arvore->right, item, procurado);
+            profundidade(arvore->left, item, procurado);
         }
     }
-    return arvore;
+    return;
 }
 
 void main(){
-    ROOT *arvore, *node;
+    ROOT *arvore, *node = NULL;
     char string[100];
     int valor = 0;
     int *i = &valor;
@@ -77,11 +82,14 @@ void main(){
     arvore = create_tree(string, i);
     scanf("%d", &no);
     calcular_profundidade(arvore, 0);
-    node = profundidade(arvore, no);
-    if(arvore == NULL) printf("NAO ESTA NA ARVORE\n");
+    profundidade(arvore, no, &node);
+    if(node == NULL){
+        printf("NAO ESTA NA ARVORE\n");
+        printf("-1\n");
+    }
     else{
         printf("ESTA NA ARVORE\n");
-        printf("%d\n", arvore->profundidade);
+        printf("%d\n", node->profundidade);
     }
 
 }
