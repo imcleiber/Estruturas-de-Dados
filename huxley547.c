@@ -39,24 +39,10 @@ ROOT *create_tree(char string[], int *i){
 
 ROOT *calcular_profundidade(ROOT *arvore, int contador){
     if(arvore == NULL) return NULL;
-    if(arvore->left == NULL && arvore->right == NULL){
-        arvore->profundidade = contador;
-    }
     else{
-        if(arvore->left == NULL){
-            arvore->profundidade = contador;
-            arvore = calcular_profundidade(arvore->right, contador + 1);
-        }
-        else if(arvore->right == NULL){
-            arvore->profundidade = contador;
-            arvore = calcular_profundidade(arvore->left, contador + 1);
-        }
-        else{
-            arvore->profundidade = contador;
-            arvore = calcular_profundidade(arvore->left, contador + 1);
-            arvore = calcular_profundidade(arvore->right, contador + 1);
-        }
-        
+        arvore->profundidade = contador;
+        arvore->left = calcular_profundidade(arvore->left, contador + 1);
+        arvore->right = calcular_profundidade(arvore->right, contador +1);
     }
     return arvore;
 }
