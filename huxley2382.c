@@ -38,30 +38,47 @@ ROOT *create_tree(char string[], int *i){
     int item = atoi(n);
     return create_new_binary_tree(item, create_tree(string, i), create_tree(string, i));
 }
-void is_complete(ROOT *arvore, int *size, int array[], int *verification, int *contador){
+void altura_folhas(ROOT *arvore, int *verification, int altura_max, int altura_atual){
+    if(*verification == -1){
+        return;
+    }
+    if(arvore->left == NULL && arvore->right == NULL){
+        if(altura_max != altura_atual){
+            *verification = -1;
+        }
+        return;
+    }
+    else{
+        altura_folhas(arvore->left, verification, altura_max, altura_atual + 1);
+        altura_folhas(arvore->right, verification, altura_max, altura_atual + 1);
+    }
+    return;
+}
+void is_complete(ROOT *arvore, int *size, int array[], int *verification, int *contador, int *altura_max, int altura_atual){
     if(arvore == NULL){
         return;
     }
     if(arvore->left == NULL && arvore->right == NULL){
         (*contador)++;
+        *altura_max = altura_atual;
         return;
+    }
+    else if(arvore->right == NULL){
+        *verification = -1;
+        is_complete(arvore->left, size, array, verification, contador, altura_max, altura_atual + 1);
+        array[*size] = arvore->item;
+        (*size)++;
     }
     else if(arvore->left == NULL){
         *verification = -1;
         array[*size] = arvore->item;
         (*size)++;
-        is_complete(arvore->right, size, array, verification, contador);
-    }
-    else if(arvore->right == NULL){
-        *verification = -1;
-        array[*size] = arvore->item;
-        (*size)++;
-        is_complete(arvore->left, size, array, verification, contador);
+        is_complete(arvore->right, size, array, verification, contador, altura_max, altura_atual + 1);
     }
     else{
         (*contador)++;
-        is_complete(arvore->left, size, array, verification, contador);
-        is_complete(arvore->right, size, array, verification, contador);
+        is_complete(arvore->left, size, array, verification, contador, altura_max, altura_atual + 1);
+        is_complete(arvore->right, size, array, verification, contador, altura_max, altura_atual + 1);
     }
 
     return;
@@ -71,20 +88,24 @@ void main(){
     char string[100];
     int valor = 0, *i = &valor;
     scanf("%s", string);
-    printf("lalala");
     arvore = create_tree(string, i);
 
-    int *size, *verification, *contador, nodes[100];
-    int a = 0, b = 1, c = 0;
-    *size = a;
-    *verification = b;
-    *contador = c;
+    int *size, *verification, *contador, *altura_maxima, nodes[100];
+    size = malloc(sizeof(int));
+    verification = malloc(sizeof(int));
+    contador = malloc(sizeof(int));
+    altura_maxima = malloc(sizeof(int));
+    *altura_maxima = 0;
+    *size = 0;
+    *verification = 1;
+    *contador = 0;
     
-    is_complete(arvore, size, nodes, verification, contador);
+    is_complete(arvore, size, nodes, verification, contador, altura_maxima, 0);
+    altura_folhas(arvore, verification, *altura_maxima, 0);
     if(*verification == -1){
         printf("nao completa\n");
         printf("nos com um filho: ");
-        for(int j = 0; j < *size; j++){
+        for(int j = 0 ; j < *size; j++){
             if(j + 1 == *size){
                 printf("%d\n", nodes[j]);
             }
@@ -95,6 +116,6 @@ void main(){
     }
     else{
         printf("completa\n");
-        printf("total de nos: %d", *contador);
+        printf("total de nos: %d\n", *contador);
     }
 }
