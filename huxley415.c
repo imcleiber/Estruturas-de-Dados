@@ -59,7 +59,6 @@ int verificar(char expressao[]){
 
     PILHA *p = criar_pilha();
     for(int i = 0; expressao[i] != '\0'; i++){
-        printf("#%c# ", expressao[i]);
         if(expressao[i] == ' '){
             continue;
         }
@@ -68,7 +67,6 @@ int verificar(char expressao[]){
         }
         else{
             compara = pop(p);
-            //printf("#%c#\n", compara->caractere);
             if(compara == NULL){
                 verifica = 0;
                 break;
@@ -92,22 +90,26 @@ int verificar(char expressao[]){
 }
 void main(){
     int expressoes, j = 0, i = 0;
-    char expressao[100];
+    char expressao[100], caractere;
     scanf("%d", &expressoes);
+    getchar();
     while(j < expressoes){
-        getchar();
-        do{
-            expressao[i] = getchar();
+        while(1){
+            caractere = getchar();
+            expressao[i] = caractere;
             i++;
-        }while(expressao[i-1] != '\n');
-        expressao[i-1] = '\0';
+            if(caractere == '\n' || caractere == EOF){
+                break;
+            }
+        }
+        expressao[i - 1] = '\0';
         if(verificar(expressao)){
             printf("Yes\n");
         }
         else{
             printf("No\n");
-        } 
-
+        }
+        i = 0;
         ++j;
     }
 }
