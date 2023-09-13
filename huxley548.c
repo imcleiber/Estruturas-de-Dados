@@ -86,3 +86,16 @@ void pop(STACK *pilha){
     }
     return;
 }
+void main(){
+    char opcao[4];
+    
+    while(scanf("%s", opcao) != EOF){
+        if(opcao == "PUSH"){
+            int i;
+            while(scanf("%d", &i) != '\n')
+        }
+        else if(opcao == "POP"){
+
+        }
+    }
+}
